@@ -12,7 +12,8 @@ sudo docker push localhost:5000/keyist-authorization-server:latest'''
 
     stage('Deploy') {
       steps {
-        sh '''kubectl apply -f k8s/manifest/'''
+        sh '''kubectl delete -f k8s/manifest/
+kubectl apply -f k8s/manifest/'''
       }
     }
 
