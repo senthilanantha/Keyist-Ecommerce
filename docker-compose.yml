@@ -15,7 +15,7 @@ services:
       - './sql/script.sql/:/docker-entrypoint-initdb.d/script.sql'
 
   authorization_server:
-    image: 'keyist-authorization-server:latest'
+    image: 'localhost:5000/keyist-authorization-server:latest'
     build:
       context: ./authorization_server
     container_name: authorization_server
@@ -30,7 +30,7 @@ services:
       - '8081:8081'
 
   resource_server:
-    image: 'keyist-resource-server:latest'
+    image: 'localhost:5000/keyist-resource-server:latest'
     build:
       context: ./resource_server
     container_name: resource_server
@@ -50,7 +50,7 @@ services:
       - '8080:8080'
 
   client:
-    image: 'keyist-client:latest'
+    image: 'localhost:5000/keyist-client:latest'
     build:
       context: ./client
     container_name: client
