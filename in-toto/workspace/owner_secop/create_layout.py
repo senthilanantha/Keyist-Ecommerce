@@ -104,7 +104,7 @@ def main():
   metadata = Envelope.from_signable(layout)
 
   # Sign and dump layout to "root.layout"
-  metadata.create_signature(signer_alice)
+  metadata.create_signature(signer_secop)
   metadata.dump("root.layout")
   print('Created demo in-toto layout as "root.layout".')
 
