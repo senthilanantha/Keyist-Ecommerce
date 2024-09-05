@@ -37,8 +37,7 @@ def main():
           "pubkeys": [key_senthil["keyid"]],
           "expected_command": [
               "cp",
-              "-pr",
-              "../../../k8s/manifest/"
+              "..\..\..\k8s\manifest\\",
           ],
           "threshold": 1,
         },{
