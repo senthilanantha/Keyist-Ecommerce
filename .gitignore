@@ -50,3 +50,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### in-toto related ###
+**/in-toto-env/*
