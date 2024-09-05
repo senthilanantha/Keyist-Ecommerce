@@ -5,81 +5,90 @@ from in_toto.models.metadata import Envelope
 # https://github.com/in-toto/in-toto/issues/663
 from in_toto.models._signer import load_public_key_from_file
 def main():
-  # Load Alice's private key to later sign the layout
-  with open("alice", "rb") as f:
-    key_alice = load_pem_private_key(f.read(), None)
+  # Load SecOp's private key to later sign the layout
+  with open("secop", "rb") as f:
+    key_secop = load_pem_private_key(f.read(), None)
 
-  signer_alice = CryptoSigner(key_alice)
-  # Fetch and load Bob's and Carl's public keys
+  signer_secop = CryptoSigner(key_secop)
+  # Fetch and load Senthil's public keys
   # to specify that they are authorized to perform certain step in the layout
-  key_bob  = load_public_key_from_file("../functionary_bob/bob.pub")
-  key_carl  = load_public_key_from_file("../functionary_carl/carl.pub")  
+  key_senthil  = load_public_key_from_file("../functionary_senthil/senthil.pub") 
 
   layout = Layout.read({
       "_type": "layout",
       "keys": {
-          key_bob["keyid"]: key_bob,
-          key_carl["keyid"]: key_carl,
+          key_senthil["keyid"]: key_senthil,
       },
       "steps": [{
           "name": "clone",
           "expected_materials": [],
-          "expected_products": [["CREATE", "demo-project/foo.py"], ["DISALLOW", "*"]],
-          "pubkeys": [key_bob["keyid"]],
+          "expected_products": [
+              ["CREATE", "manifest/authorization_server-service.yaml"],
+              ["CREATE", "manifest/authorization-server-deployment.yaml"],
+              ["CREATE", "manifest/client-deployment.yaml"],
+              ["CREATE", "manifest/client-service.yaml"],
+              ["CREATE", "manifest/mysql-cm0-configmap.yaml"],
+              ["CREATE", "manifest/mysql-deployment.yaml"],
+              ["CREATE", "manifest/mysql-service.yaml"],
+              ["CREATE", "manifest/resource_server-service.yaml"],
+              ["CREATE", "manifest/resource-server-deployment.yaml"],
+              ["DISALLOW", "*"]
+          ],
+          "pubkeys": [key_senthil["keyid"]],
           "expected_command": [
-              "git",
-              "clone",
-              "https://github.com/in-toto/demo-project.git"
+              "cp",
+              "-pr",
+              "../../../k8s/manifest/"
           ],
           "threshold": 1,
         },{
           "name": "update-version",
-          "expected_materials": [["MATCH", "demo-project/*", "WITH", "PRODUCTS",
+          "expected_materials": [["MATCH", "manifest/*", "WITH", "PRODUCTS",
                                 "FROM", "clone"], ["DISALLOW", "*"]],
-          "expected_products": [["MODIFY", "demo-project/foo.py"], ["DISALLOW", "*"]],
-          "pubkeys": [key_bob["keyid"]],
+          "expected_products": [["MODIFY", "manifest/client-deployment.yaml"], ["DISALLOW", "*"]],
+          "pubkeys": [key_senthil["keyid"]],
           "expected_command": [],
           "threshold": 1,
         },{
           "name": "package",
           "expected_materials": [
-            ["MATCH", "demo-project/*", "WITH", "PRODUCTS", "FROM",
+            ["MATCH", "manifest/*", "WITH", "PRODUCTS", "FROM",
              "update-version"], ["DISALLOW", "*"],
           ],
           "expected_products": [
-              ["CREATE", "demo-project.tar.gz"], ["DISALLOW", "*"],
+              ["CREATE", "manifest.tar.gz"], ["DISALLOW", "*"],
           ],
-          "pubkeys": [key_carl["keyid"]],
+          "pubkeys": [key_senthil["keyid"]],
           "expected_command": [
               "tar",
               "--exclude",
               ".git",
               "-zcvf",
-              "demo-project.tar.gz",
-              "demo-project",
+              "manifest.tar.gz",
+              "manifest",
           ],
           "threshold": 1,
         }],
       "inspect": [{
           "name": "untar",
           "expected_materials": [
-              ["MATCH", "demo-project.tar.gz", "WITH", "PRODUCTS", "FROM", "package"],
+              ["MATCH", "manifest.tar.gz", "WITH", "PRODUCTS", "FROM", "package"],
               # FIXME: If the routine running inspections would gather the
               # materials/products to record from the rules we wouldn't have to
               # ALLOW other files that we aren't interested in.
               ["ALLOW", ".keep"],
-              ["ALLOW", "alice.pub"],
+              ["ALLOW", "secop.pub"],
               ["ALLOW", "root.layout"],
               ["ALLOW", "*.link"],
               ["DISALLOW", "*"]
           ],
           "expected_products": [
-              ["MATCH", "demo-project/foo.py", "WITH", "PRODUCTS", "FROM", "update-version"],
+              ["MATCH", "manifest/*", "WITH", "PRODUCTS", "FROM", "update-version"],
               # FIXME: See expected_materials above
-              ["ALLOW", "demo-project/.git/*"],
-              ["ALLOW", "demo-project.tar.gz"],
+              ["ALLOW", "manifest/.git/*"],
+              ["ALLOW", "manifest.tar.gz"],
               ["ALLOW", ".keep"],
-              ["ALLOW", "alice.pub"],
+              ["ALLOW", "secop.pub"],
               ["ALLOW", "root.layout"],
               ["ALLOW", "*.link"],
               ["DISALLOW", "*"]
@@ -87,7 +96,7 @@ def main():
           "run": [
               "tar",
               "xzf",
-              "demo-project.tar.gz",
+              "manifest.tar.gz",
           ]
         }],
   })
