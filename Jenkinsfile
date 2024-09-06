@@ -1,16 +1,8 @@
 pipeline {
   agent any
-  options {
-        // This is required if you want to clean before build
-        skipDefaultCheckout(true)
-  }
   stages {
     stage('Build') {
       steps {
-        cleanWs()
-        sh '''
-rm -rf /var/lib/jenkins/workspace/*'''
-        checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
@@ -43,7 +35,7 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 rm -rf k8s/
 mkdir k8s
 tar xvf in-toto/final_product/manifest.tar.gz -C k8s/
-kubectl apply -f k8s/manifest/
+kubectl apply -f k8s/manifest/'''
       }
     }
   }
