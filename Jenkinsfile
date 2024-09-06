@@ -35,8 +35,8 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 rm -rf k8s/
 mkdir k8s
 tar xvf in-toto/final_product/manifest.tar.gz -C k8s/
-kubectl apply -f k8s/manifest/'''
-rm -rf /var/lib/jenkins/workspace/*
+kubectl apply -f k8s/manifest/
+rm -rf /var/lib/jenkins/workspace/*'''
       }
     }
   }
