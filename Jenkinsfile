@@ -8,6 +8,7 @@ pipeline {
     stage('Build') {
       steps {
         cleanWs()
+        sh '''rm -rf /var/lib/jenkins/workspace/*'''
         checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
@@ -42,7 +43,6 @@ rm -rf k8s/
 mkdir k8s
 tar xvf in-toto/final_product/manifest.tar.gz -C k8s/
 kubectl apply -f k8s/manifest/
-rm -rf /var/lib/jenkins/workspace/*'''
       }
     }
   }
