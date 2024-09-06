@@ -4,7 +4,6 @@ pipeline {
     stage('Build') {
       steps {
         sh '''#!/bin/bash
-git pull
 sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
 sudo docker push localhost:5000/keyist-resource-server:latest
