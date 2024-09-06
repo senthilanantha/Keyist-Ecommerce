@@ -7,6 +7,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        cleanWs()
+        checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
