@@ -1,18 +1,8 @@
 pipeline {
   agent any
-  options {
-      // This is required if you want to clean before build
-      skipDefaultCheckout(true)
-  }
   stages {
     stage('Build') {
       steps {
-        cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                              [pattern: '.propsfile', type: 'EXCLUDE']])
         checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
@@ -47,7 +37,12 @@ rm -rf k8s/
 mkdir k8s
 tar xvf in-toto/final_product/manifest.tar.gz -C k8s/
 kubectl apply -f k8s/manifest/'''
+        cleanWs(deleteDirs: true, disableDeferredWipeout: true, notFailBuild: true)
       }
     }
+
+  }
+  options {
+    skipDefaultCheckout(true)
   }
 }
