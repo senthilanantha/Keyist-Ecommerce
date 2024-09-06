@@ -3,6 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        cleanWs(deleteDirs: true, disableDeferredWipeout: true, notFailBuild: true)
         checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
