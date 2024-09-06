@@ -38,16 +38,5 @@ tar xvf in-toto/final_product/manifest.tar.gz -C k8s/
 kubectl apply -f k8s/manifest/'''
       }
     }
-
-    post {
-        // Clean after build
-        always {
-            cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
-        }
   }
 }
