@@ -32,7 +32,7 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
     stage('Deploy') {
       steps {
         sh '''#!/bin/bash
-tar xvf in-toto/final/product/manifest.tar.gz k8s/
+tar xvf in-toto/final_product/manifest.tar.gz k8s/
 kubectl apply -f k8s/manifest/'''
       }
     }
