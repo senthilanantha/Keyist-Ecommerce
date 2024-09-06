@@ -3,7 +3,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh '''sudo docker-compose build
+        sh '''#!/bin/bash
+sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
 sudo docker push localhost:5000/keyist-resource-server:latest
 sudo docker push localhost:5000/keyist-authorization-server:latest'''
@@ -30,7 +31,7 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 
     stage('Deploy') {
       steps {
-        sh '''!/bin/bash
+        sh '''#!/bin/bash
 tar xvf in-toto/final/product/manifest.tar.gz k8s/
 kubectl apply -f k8s/manifest/'''
       }
