@@ -13,6 +13,7 @@ pipeline {
                     notFailBuild: true,
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
                               [pattern: '.propsfile', type: 'EXCLUDE']])
+        checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
