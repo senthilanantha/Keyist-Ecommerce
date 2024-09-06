@@ -40,7 +40,7 @@ def main():
           "expected_command": [
               "cp",
               "-pr",
-              "../../Keyist-Ecommerce/k8s/manifest/",
+              "../../k8s/manifest/",
               ".",
           ],
           "threshold": 1,
