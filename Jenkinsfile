@@ -1,8 +1,18 @@
 pipeline {
   agent any
+  options {
+      // This is required if you want to clean before build
+      skipDefaultCheckout(true)
+  }
   stages {
     stage('Build') {
       steps {
+        cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                              [pattern: '.propsfile', type: 'EXCLUDE']])
         sh '''#!/bin/bash
 sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
