@@ -8,7 +8,8 @@ pipeline {
     stage('Build') {
       steps {
         cleanWs()
-        sh '''rm -rf /var/lib/jenkins/workspace/*'''
+        sh '''
+rm -rf /var/lib/jenkins/workspace/*'''
         checkout scm
         sh '''#!/bin/bash
 sudo docker-compose build
