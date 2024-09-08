@@ -21,6 +21,8 @@ source tmp-py-env/bin/activate
 pip install -r in-toto/requirements.txt
 
 cd in-toto/functionary_packer
+rm -f manifest
+rm -rf *.link
 cp -pr ../functionary_senthil/manifest/ .
 in-toto-run --verbose --step-name package --use-dsse --materials manifest/client-deployment.yaml --products manifest.tar.gz --signing-key packer -- tar --exclude ".git" -zcvf manifest.tar.gz manifest
 rm -rf manifest
