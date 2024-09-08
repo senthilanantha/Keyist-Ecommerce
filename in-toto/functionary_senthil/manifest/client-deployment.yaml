@@ -1,3 +1,4 @@
+#Some invalid entries
 #Valid entry in code
 apiVersion: apps/v1
 kind: Deployment
