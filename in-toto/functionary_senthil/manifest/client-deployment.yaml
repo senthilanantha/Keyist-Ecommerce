@@ -1,6 +1,4 @@
-#Third entry
-#Second valid entry
-#First new entry
+#Valid entry in code
 apiVersion: apps/v1
 kind: Deployment
 metadata:
