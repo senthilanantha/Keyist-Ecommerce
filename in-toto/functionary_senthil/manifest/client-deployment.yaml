@@ -1,4 +1,4 @@
-#faulty code
+#Second valid entry
 #First new entry
 apiVersion: apps/v1
 kind: Deployment
