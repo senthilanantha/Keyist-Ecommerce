@@ -25,6 +25,7 @@ cp -pr ../functionary_senthil/manifest/ .
 in-toto-run --verbose --step-name package --use-dsse --materials manifest/client-deployment.yaml --products manifest.tar.gz --signing-key packer -- tar --exclude ".git" -zcvf manifest.tar.gz manifest
 rm -rf manifest
 cd ..
+rm -rf final_product/*
 cp owner_secop/secop.pub owner_secop/root.layout functionary_senthil/clone.210dcc50.link functionary_senthil/update-version.210dcc50.link functionary_packer/package.be06db20.link functionary_packer/manifest.tar.gz final_product/
 cd final_product
 in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
