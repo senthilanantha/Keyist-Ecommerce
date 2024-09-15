@@ -47,7 +47,7 @@ kubectl apply -f in-toto/final_product/manifest/'''
           steps {
             sh '''#!/bin/bash
 cd authorization_server
-mvn clean -DskipTests verify sonar:sonar \\ -Dsonar.projectKey=Keyist-Ecommerce \\ -Dsonar.projectName=\'Keyist-Ecommerce\' \\ -Dsonar.host.url=http://localhost:9000 \\ -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
+mvn clean -DskipTests verify sonar:sonar -Dsonar.projectKey=Keyist-Ecommerce -Dsonar.projectName=\'Keyist-Ecommerce\' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
           }
         }
 
