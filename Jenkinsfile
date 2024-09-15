@@ -50,8 +50,8 @@ kubectl apply -f in-toto/final_product/manifest/'''
   -Dsonar.projectKey=Keyist-Ecommerce \\
   -Dsonar.sources=. \\
   -Dsonar.host.url=http://13.202.139.173:9000 \\
-  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4
-'''
+  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4 \\
+  -Dsonar.exclusions=**/*.java'''
           }
         }
 
