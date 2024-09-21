@@ -34,12 +34,6 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
       }
     }
 
-    stage('SCA') {
-      steps {
-        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
-      }
-    }
-
     stage('SAST') {
       parallel {
         stage('SAST-Auth-Java') {
@@ -69,6 +63,12 @@ mvn clean verify sonar:sonar \\
       }
     }
 
+    stage('SCA') {
+      steps {
+        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
+      }
+    }
+    
     stage('Deploy') {
       steps {
         sh '''#!/bin/bash
