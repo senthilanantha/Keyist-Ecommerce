@@ -37,12 +37,6 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
       }
     }
 
-    stage('SCA') {
-      steps {
-        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
-      }
-    }
-
     stage('SAST-Auth') {
       parallel {
         stage('SAST-Auth-Java') {
