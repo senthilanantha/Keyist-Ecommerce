@@ -70,6 +70,12 @@ kubectl apply -f in-toto/final_product/manifest/'''
       }
     }
 
+    stage('SCA') {
+      steps {
+        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
+      }
+    }
+
   }
   options {
     skipDefaultCheckout(true)
