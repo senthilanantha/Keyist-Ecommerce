@@ -36,14 +36,14 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 
     stage('SCA') {
       steps {
-        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
         sh '''#!/bin/bash
 cd client
 npm install'''
+        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
       }
     }
 
-    stage('SAST-Auth') {
+    stage('SAST') {
       parallel {
         stage('SAST-Auth-Java') {
           steps {
