@@ -36,10 +36,12 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 
     stage('SCA') {
       steps {
+        sh '''#/bin/bash
+npm install'''
         dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
       }
     }
-    
+
     stage('SAST-Auth') {
       parallel {
         stage('SAST-Auth-Java') {
@@ -75,7 +77,7 @@ mvn clean verify sonar:sonar \\
 kubectl apply -f in-toto/final_product/manifest/'''
       }
     }
-  
+
   }
   options {
     skipDefaultCheckout(true)
