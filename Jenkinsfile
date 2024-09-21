@@ -10,9 +10,6 @@ sudo docker-compose build
 sudo docker push localhost:5000/keyist-client:latest
 sudo docker push localhost:5000/keyist-resource-server:latest
 sudo docker push localhost:5000/keyist-authorization-server:latest'''
-        sh '''#!/bin/bash
-cd client
-npm install'''
       }
     }
 
@@ -47,7 +44,7 @@ mvn clean verify sonar:sonar \\
   -Dsonar.projectKey=auth_server \\
   -Dsonar.projectName=\'auth_server\' \\
   -Dsonar.host.url=http://localhost:9000 \\
-  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
+  -Dsonar.token=sqp_127bfdd0ad4c25a897d24777794d081ba9ad1f39'''
           }
         }
 
@@ -59,15 +56,7 @@ mvn clean verify sonar:sonar \\
   -Dsonar.projectKey=resource_server \\
   -Dsonar.projectName=\'resource_server\' \\
   -Dsonar.host.url=http://localhost:9000 \\
-  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
-          }
-        }
-
-        stage('SAST-Client-Angular') {
-          steps {
-            sh '''#!/bin/bash
-cd client
-npm run sonar -- -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
+  -Dsonar.token=sqp_44fd0849806a2784a09aafe18f05c008b028e511'''
           }
         }
 
