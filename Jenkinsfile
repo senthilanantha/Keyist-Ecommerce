@@ -34,21 +34,43 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
       }
     }
 
-    stage('SAST') {
+    stage('SCA') {
+      steps {
+        dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
+      }
+    }
+
+    stage('SAST-Auth') {
       parallel {
-        stage('SAST') {
+        stage('SAST-Auth-Java') {
           steps {
             sh '''#!/bin/bash
 cd authorization_server
-mvn clean -DskipTests verify sonar:sonar -Dsonar.projectKey=Keyist-Ecommerce -Dsonar.projectName=\'Keyist-Ecommerce\' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4
-cd ../resource_server
-mvn clean -DskipTests verify sonar:sonar -Dsonar.projectKey=Keyist-Ecommerce -Dsonar.projectName=\'Keyist-Ecommerce\' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
+mvn clean verify sonar:sonar \\
+  -Dsonar.projectKey=auth_server \\
+  -Dsonar.projectName=\'auth_server\' \\
+  -Dsonar.host.url=http://localhost:9000 \\
+  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
           }
         }
 
-        stage('SCA') {
+        stage('SAST-Resource-Java') {
           steps {
-            dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
+            sh '''#!/bin/bash
+cd resource_server
+mvn clean verify sonar:sonar \\
+  -Dsonar.projectKey=resource_server \\
+  -Dsonar.projectName=\'resource_server\' \\
+  -Dsonar.host.url=http://localhost:9000 \\
+  -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
+          }
+        }
+
+        stage('SAST-Client-Angular') {
+          steps {
+            sh '''#!/bin/bash
+cd client
+npm run sonar -- -Dsonar.token=sqp_b22d4407ea4315954f2f0f2df84ae46f09dd2eb4'''
           }
         }
 
