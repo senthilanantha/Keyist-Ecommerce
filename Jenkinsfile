@@ -36,8 +36,6 @@ in-toto-verify --verbose --layout root.layout --verification-keys secop.pub'''
 
     stage('SCA') {
       steps {
-        sh '''#!/bin/bash
-npm install'''
         dependencyCheck(odcInstallation: 'DP-check', additionalArguments: '--format HTML')
       }
     }
