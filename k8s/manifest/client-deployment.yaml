@@ -1,5 +1,4 @@
-#Some invalid intrusions
-#New valid entry
+# Valid code
 apiVersion: apps/v1
 kind: Deployment
 metadata:
