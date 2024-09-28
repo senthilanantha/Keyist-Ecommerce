@@ -1,5 +1,4 @@
-#Valid entry 2
-#Valid entry in code
+#Some valid entries
 apiVersion: apps/v1
 kind: Deployment
 metadata:
